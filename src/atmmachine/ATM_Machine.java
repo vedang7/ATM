@@ -196,6 +196,7 @@ public class ATM_Machine {
 		int choice;
 		Receipt R = new Receipt();
 		Deposit d = new Deposit();
+		MoneyTransfer m=new MoneyTransfer();
 		System.out.println("---------------------");
 		System.out.println("\tMenu");
 		System.out.println("---------------------");
@@ -212,8 +213,8 @@ public class ATM_Machine {
 			case 2: //withdraw
 				//R.receipt(1234, 1, Card_number);
 				break;
-			case 3: //Transfer
-				//R.receipt(1234, 1, Card_number);
+			case 3: 
+				m.transfer(Account_no);
 				break;
 			case 4: 
 				d.deposit1(Card_number);

@@ -55,6 +55,7 @@ ResultSet rs=stmt.executeQuery("select account_balance from account,atm_card whe
 		ATM_Machine a1 = new ATM_Machine();
 		int temporary;
 		temporary = a1.Receipt_no + 1;
+		a1.Receipt_no=temporary;
 		r1.receipt(temporary, 4, a1.Account_no);
 		
 	}
