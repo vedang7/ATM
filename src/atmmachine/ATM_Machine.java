@@ -142,6 +142,7 @@ public class ATM_Machine {
 					StringAccount_no=q.getString(1);
 				    Account_no = Integer.parseInt(StringAccount_no);
 					this.count=0;
+					System.out.println(Account_no);
 					menu();
 				}
 				else

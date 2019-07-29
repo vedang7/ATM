@@ -109,6 +109,9 @@ public class Receipt {
 				}
 			} catch (Exception e) {
 				System.out.println(e);
+			}finally {
+				Log_Out l1= new Log_Out();
+				l1.logout();
 			}
 			break;
 		case 3:
@@ -120,9 +123,7 @@ public class Receipt {
 				Connection con = DriverManager.getConnection(
 						"jdbc:oracle:thin:@OSCTrain1DB01.oneshield.com:1521:TRAIN1", "amdias", "password");
 //SQL QUERY
-				String query = "select transaction.TRANSACTION_ID ,\n" + "TRANSACTION_TYPE ,\n"
-						+ "transaction.ACCOUNT_NO ,\n" + "TIMESTAMPS ,\n"
-						+ "TRANSACTION_AMT,transfer.beneficiary_acc,account.account_balance as cur from transaction \n"
+				String query = "select transaction.*,transfer.beneficiary_acc,account.account_balance as cur from transaction \n"
 						+ "join account\n" + "on account.account_no=transaction.account_no\n" + "inner join transfer\n"
 						+ "on transfer.transaction_id=transaction.transaction_id\n"
 						+ "where transaction.account_no= ? and \n"
@@ -158,6 +159,9 @@ public class Receipt {
 			} catch (Exception e) {
 				System.out.println(e);
 
+			}finally {
+				Log_Out l1= new Log_Out();
+				l1.logout();
 			}
 			break;
 		case 4:

@@ -10,7 +10,11 @@ import atmmachine.ATM_Machine;
 
 public class Deposit {
 	
-	
+	Receipt r1 = new Receipt();
+	ATM_Machine a1 = new ATM_Machine();
+	Integer acno;
+	int temporary=0;
+	String accountno;
 public void deposit1(String number)
 {
 	
@@ -43,6 +47,13 @@ ResultSet rs=stmt.executeQuery("select account_balance from account,atm_card whe
 		int amt=s.nextInt();
 		acc_balance = acc_balance + amt;
 		String query2 = " update account set account_balance ="+acc_balance+" where card_no='"+acc_number+"'" ;
+		String sql ="select account_no from account where card_no="+number;
+		ResultSet q=stmt.executeQuery(sql);
+		q.next();
+		accountno=q.getString(1);
+		//System.out.print(accountno);
+		acno= Integer.parseInt(accountno);
+		//System.out.println(acno);
 		//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
 		//FROM Orders
 		//INNER JOIN Customers
@@ -50,18 +61,19 @@ ResultSet rs=stmt.executeQuery("select account_balance from account,atm_card whe
 		//select balance from account,atm_card where account.card_no=atm_card.card_no and atm_card.card_no=acc_number;
 		stmt2.executeUpdate(query2);
 		System.out.print("The Transaction is processed successfully\n");
-		System.out.print("The new balance is "+acc_balance);
-		Receipt r1 = new Receipt();
-		ATM_Machine a1 = new ATM_Machine();
-		int temporary;
-		temporary = a1.Receipt_no + 1;
+		System.out.println("The new balance is "+acc_balance);
+		temporary = a1.Receipt_no;
+		temporary++;
 		a1.Receipt_no=temporary;
-		r1.receipt(temporary, 4, a1.Account_no);
+		//acno=a1.Account_no;
+		//System.out.println(acno);
+		//System.out.print(a1.Receipt_no);
+		r1.receipt(temporary, 4, acno);
 		
 	}
 	catch(Exception e)
 	{
-		System.out.println("Error");
+		System.out.println(e);
 	}
 	
 	
