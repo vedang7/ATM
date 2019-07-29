@@ -16,7 +16,7 @@ public class Receipt {
 
 		switch (category) {
 		case 1:
-			System.out.println("Statement Printed Successfully");
+			System.out.println("--------------------------------------");
 			try {
 
 // Connection Object
@@ -42,14 +42,18 @@ public class Receipt {
 					 Date date= new Date();
 					 
 					 long time = date.getTime();
-					     System.out.println("Time in Milliseconds: " + time);
+					     //System.out.println("Time in Milliseconds: " + time);
 					 
 					 Timestamp ts = new Timestamp(time);
-					System.out.print("Receipt#: " + receipt_no);
-					System.out.println(" Timestamp:"+ts);
+					//System.out.print("Receipt#: " + receipt_no);
+					System.out.println("Timestamp:"+ts);
 
-					System.out.println("Account#: " + id);
-					System.out.println("Current Balance: ₹ " + amount);
+					System.out.println("Account Number: " + id);
+					System.out.println("Current Balance: ₹" + amount);
+					System.out.println("Statement Printed Successfully");
+					System.out.println("--------------------------------------");
+
+
 
 				}
 			} catch (Exception e) {

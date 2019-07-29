@@ -17,7 +17,7 @@ public class ATM_Machine {
 	String Card_number;//Card number
 	int validcard=0;
 	String tocheckcount;
-	int Receipt_no=1000;
+	int Receipt_no;
 	String tempcardnum;
 	String StringAccount_no;
 	Integer Account_no;
@@ -43,9 +43,9 @@ public class ATM_Machine {
 		    try
 		    {
 		        Date javaDate = sdfrmt.parse(strDate);
-		        System.out.println("Retrieved from database: "+javaDate);
+		       // System.out.println("Retrieved from database: "+javaDate);
 		        Date todayDate = sdfrmt.parse(sdfrmt.format(new Date()));
-		        System.out.println("Todays date: "+todayDate);
+		      //  System.out.println("Todays date: "+todayDate);
 		        if(javaDate.compareTo(todayDate)>=0)
 		        {
 		        	return true;
@@ -113,14 +113,14 @@ public class ATM_Machine {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		con = DriverManager.getConnection(url,user,pass);
 		Statement st = con.createStatement();
-		System.out.println("-------------------------------------");
+		System.out.println("--------------------------------------");
 		System.out.print("Enter card number:  ");
 		Scanner myObj = new Scanner(System.in);
 		Card_number= myObj.nextLine();
 		System.out.println("--------------------------------------");
 		System.out.print("\nEnter pin:  ");
 		pin= myObj.nextLine();
-		System.out.println("---------------------------------------\n");
+		System.out.println("--------------------------------------\n");
 		String sql2 = "select * from atm_card where CARD_NO="+Card_number;
 		Encryption();
 		String sql = "select * from card_pin where CARD_PIN_E="+tempcardnum;
@@ -142,7 +142,13 @@ public class ATM_Machine {
 					StringAccount_no=q.getString(1);
 				    Account_no = Integer.parseInt(StringAccount_no);
 					this.count=0;
-					System.out.println(Account_no);
+					//System.out.println(Account_no);
+					
+					String sql7 ="select max(transaction_id) from transaction"; 
+					ResultSet r=st.executeQuery(sql7); 
+					r.next();
+					this.Receipt_no=r.getInt(1);
+					System.out.println(Receipt_no);
 					menu();
 				}
 				else
