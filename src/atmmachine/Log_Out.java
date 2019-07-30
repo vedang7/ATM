@@ -12,5 +12,5 @@ public class Log_Out {
 		a1.pin=null;
 		a1.Validation();
 	}
-
+	
 }

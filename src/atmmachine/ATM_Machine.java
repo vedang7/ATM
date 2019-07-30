@@ -18,6 +18,7 @@ public class ATM_Machine {
 	int validcard=0;
 	String tocheckcount;
 	int Receipt_no;
+	int softlock;
 	String tempcardnum;
 	String StringAccount_no;
 	Integer Account_no;
@@ -31,11 +32,21 @@ public class ATM_Machine {
 	String url = "jdbc:oracle:thin:@OSCTrain1DB01.oneshield.com:1521:Train1";
 	String user = "amdias";
 	String pass = "password";
+	
+	public ATM_Machine(int acntno,int rcpt) {
+		this.Account_no=acntno;
+		this.Receipt_no=rcpt;
+		// TODO Auto-generated constructor stub
+	}
 		
+	public ATM_Machine() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public static boolean validateJavaDate(String strDate)
 	   {
         //System.out.println("Retrieved from database1: "+strDate);
-		System.out.println("\n\n\tWELCOME");
+		//System.out.println("\n\n\tWELCOME\n\n");
 
 
 		    SimpleDateFormat sdfrmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,14 +153,34 @@ public class ATM_Machine {
 					StringAccount_no=q.getString(1);
 				    Account_no = Integer.parseInt(StringAccount_no);
 					this.count=0;
-					//System.out.println(Account_no);
-					
+					//System.out.println(Account_no);		
 					String sql7 ="select max(transaction_id) from transaction"; 
 					ResultSet r=st.executeQuery(sql7); 
 					r.next();
 					this.Receipt_no=r.getInt(1);
-					System.out.println(Receipt_no);
-					menu();
+					//System.out.println(Receipt_no);
+					
+					String sql8 ="select soft_lock from account where account_no="+Account_no;
+					ResultSet s=st.executeQuery(sql8);
+					s.next();
+					this.softlock=s.getInt(1);
+					//System.out.println(this.softlock);
+					if(this.softlock==1)
+					{
+						System.out.println("\n\n\tWELCOME\n\n");
+						String sql9="update account set soft_lock=0 where account_no="+Account_no;
+						ResultSet t=st.executeQuery(sql9);
+						//t.next();
+						//this.softlock=0;
+						menu();
+					}
+					else
+					{
+						System.out.println("Someone else is still using this account.\nIf it is a suspicious activity please report that to nearby bank");
+						Log_Out l2= new Log_Out();
+						l2.logout();
+						
+					}
 				}
 				else
 				{
@@ -203,6 +234,7 @@ public class ATM_Machine {
 		int choice;
 		Receipt R = new Receipt();
 		Deposit d = new Deposit();
+		withdrawCash w = new withdrawCash(Account_no);
 		MoneyTransfer m=new MoneyTransfer();
 		System.out.println("---------------------");
 		System.out.println("\tMenu");
@@ -214,20 +246,34 @@ public class ATM_Machine {
 		switch(choice)
 		{
 			case 1: //Statement
-					Receipt_no++;
+				//	Receipt_no++;
 					R.receipt(Receipt_no, 1, Account_no);
 					break;
-			case 2: //withdraw
-				//R.receipt(1234, 1, Card_number);
+			case 2: 
+				w.withdrawal();
 				break;
 			case 3: 
 				m.transfer(Account_no);
 				break;
 			case 4: 
-				d.deposit1(Card_number);
+				d.deposit1(Account_no);
 				break;
-			case 5: Log_Out l= new Log_Out();
+			case 5: 
+				Connection con=null;
+				try
+				{
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				con = DriverManager.getConnection(url,user,pass);
+				Statement st = con.createStatement();
+				String sql10="update account set soft_lock=1 where account_no="+Account_no;
+				ResultSet r= st.executeQuery(sql10);
+				Log_Out l= new Log_Out();
 				l.logout();
+				}
+				catch(Exception e)
+				{
+					
+				}
 				break;
 			default:
 				System.out.println("Invalid Entry");

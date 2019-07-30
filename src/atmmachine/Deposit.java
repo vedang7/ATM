@@ -12,16 +12,13 @@ public class Deposit {
 	
 	Receipt r1 = new Receipt();
 	ATM_Machine a1 = new ATM_Machine();
-	Integer acno;
-	int temporary=0;
-	String accountno;
-public void deposit1(String number)
-{
-	
-    Long acc_number=Long.parseLong(number) ;
-    //long a=1111222233334444l;
+	int temporary;
     int acc_balance=0;
     int new_acc_balance=0;
+public void deposit1(int number)
+{
+	
+    int acc_number=number;
 	try{  
 		//step1 load the driver class  
 		Class.forName("oracle.jdbc.driver.OracleDriver");  
@@ -32,44 +29,42 @@ public void deposit1(String number)
 		  
 		//step3 create the statement object  
 		Statement stmt=con.createStatement(); 
-		Statement stmt2=con.createStatement(); 
+		//Statement stmt2=con.createStatement(); 
 		
 		//step4 execute query retrieve 
-ResultSet rs=stmt.executeQuery("select account_balance from account,atm_card where account.card_no=ATM_CARD.card_no and atm_card.card_no='"+acc_number+"'");  
-		while(rs.next()) {	
-			//System.out.println(rs.getInt("account_balance"));	
+        ResultSet rs=stmt.executeQuery("select account_balance from account where account_no='"+acc_number+"'");  
+        while(rs.next()) {	
+		//System.out.println(rs.getInt("account_balance"));	
 		acc_balance = rs.getInt("account_balance");
 		
-		}
-		
+        }
+        System.out.println("Your balance is "+acc_balance);	
 		System.out.println("Please enter the amount to deposit");
 		Scanner s=new Scanner(System.in);
 		int amt=s.nextInt();
-		acc_balance = acc_balance + amt;
-		String query2 = " update account set account_balance ="+acc_balance+" where card_no='"+acc_number+"'" ;
-		String sql ="select account_no from account where card_no="+number;
-		ResultSet q=stmt.executeQuery(sql);
-		q.next();
-		accountno=q.getString(1);
-		//System.out.print(accountno);
-		acno= Integer.parseInt(accountno);
-		//System.out.println(acno);
-		//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
-		//FROM Orders
-		//INNER JOIN Customers
-		//ON Orders.CustomerID=Customers.CustomerID;
-		//select balance from account,atm_card where account.card_no=atm_card.card_no and atm_card.card_no=acc_number;
-		stmt2.executeUpdate(query2);
-		System.out.print("The Transaction is processed successfully\n");
-		System.out.println("The new balance is "+acc_balance);
-		temporary = a1.Receipt_no;
-		temporary++;
-		a1.Receipt_no=temporary;
-		//acno=a1.Account_no;
-		//System.out.println(acno);
-		//System.out.print(a1.Receipt_no);
-		r1.receipt(temporary, 4, acno);
+		if(amt<=0 || amt>20000)
+		{
+	        System.out.println("cannot deposit "+amt);	
+            deposit1(acc_number); 
+		}
+		else {
 		
+		new_acc_balance = acc_balance + amt;
+		String query2 = " update account set account_balance ="+new_acc_balance+" where account_no='"+acc_number+"'" ;
+		stmt.executeUpdate(query2);
+		System.out.print("The Transaction is processed successfully\n");
+		System.out.println("The new balance is "+new_acc_balance);
+		
+		String sql1 = "INSERT INTO TRANSACTION(TRANSACTION_TYPE,ACCOUNT_NO,TRANSACTION_AMT) VALUES('DEPOSIT',"+acc_number+","+amt+")";
+		stmt.executeUpdate(sql1);
+		
+		String sql7 ="select max(transaction_id) from transaction where account_no='"+acc_number+"'"; 
+		ResultSet r=stmt.executeQuery(sql7); 
+		r.next();
+		this.temporary=r.getInt(1);
+		r1.receipt(temporary, 4, acc_number);
+		
+		}
 	}
 	catch(Exception e)
 	{
@@ -78,5 +73,4 @@ ResultSet rs=stmt.executeQuery("select account_balance from account,atm_card whe
 	
 	
 }
-
 }

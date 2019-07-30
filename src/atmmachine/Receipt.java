@@ -1,4 +1,3 @@
-
 package atmmachine;
 
 import java.sql.*;
@@ -13,6 +12,9 @@ public class Receipt {
 	static final String PASS = "password";
 
 	public void receipt(int receipt_no, int category, int accno) {
+		ATM_Machine atm = new ATM_Machine(accno, receipt_no);
+
+		String sql9 = "update account set SOFT_LOCK = 1 WHERE account_no=" + accno;
 
 		switch (category) {
 		case 1:
@@ -37,32 +39,38 @@ public class Receipt {
 					int amount = rs.getInt("account_balance");
 
 // Display
-					
-					 
-					 Date date= new Date();
-					 
-					 long time = date.getTime();
-					     //System.out.println("Time in Milliseconds: " + time);
-					 
-					 Timestamp ts = new Timestamp(time);
-					//System.out.print("Receipt#: " + receipt_no);
-					System.out.println("Timestamp:"+ts);
+
+					Date date = new Date();// timestamp
+					long time = date.getTime();
+					Timestamp ts = new Timestamp(time);
+//System.out.print("Receipt#: " + receipt_no);
+					System.out.println("Timestamp:" + ts);
 
 					System.out.println("Account Number: " + id);
 					System.out.println("Current Balance: ₹" + amount);
 					System.out.println("Statement Printed Successfully");
 					System.out.println("--------------------------------------");
+					System.out.println("Do You want to continue with transaction:\n" + "0: CONTINUE 1: EXIT");
+					Scanner myObj = new Scanner(System.in);
+					int choice = myObj.nextInt();
 
+					if (choice == 0)
 
+					{
+
+						atm.menu();
+					} else {
+						Statement stmt = con.createStatement();
+						ResultSet r = stmt.executeQuery(sql9);
+						Log_Out l1 = new Log_Out();
+						l1.logout();
+
+					}
 
 				}
 			} catch (Exception e) {
 				System.out.println(e);
 
-			}
-			finally {
-				Log_Out l1= new Log_Out();
-				l1.logout();
 			}
 			break;
 
@@ -106,6 +114,22 @@ public class Receipt {
 					System.out.println("Transaction_type: " + trans_type);
 					System.out.println("Transaction_amount: ₹ " + trans_amount);
 					System.out.println("Current Balance: ₹ " + current_balance);
+					System.out.println("Do You want to continue with transaction:\n" + "0: CONTINUE 1: EXIT");
+					Scanner myObj = new Scanner(System.in);
+					int choice = myObj.nextInt();
+
+					if (choice == 0)
+
+					{
+
+						atm.menu();
+					} else {
+						Statement stmt = con.createStatement();
+						ResultSet r = stmt.executeQuery(sql9);
+						Log_Out l1 = new Log_Out();
+						l1.logout();
+
+					}
 
 // System.out.print(", First: " + first);
 // System.out.println(", Last: " + last);
@@ -113,9 +137,6 @@ public class Receipt {
 				}
 			} catch (Exception e) {
 				System.out.println(e);
-			}finally {
-				Log_Out l1= new Log_Out();
-				l1.logout();
 			}
 			break;
 		case 3:
@@ -158,14 +179,23 @@ public class Receipt {
 					System.out.println("Transferred To: " + beneficiary);
 					System.out.println("Transfer_amount: ₹ " + trans_amount);
 					System.out.println("Current Balance: ₹ " + current_balance);
+					System.out.println("Do You want to continue with transaction:\n" + "0: CONTINUE 1: EXIT");
+					Scanner myObj = new Scanner(System.in);
+					int choice = myObj.nextInt();
+
+					if (choice == 0) {
+						atm.menu();
+					} else {
+						Statement stmt = con.createStatement();
+						ResultSet r = stmt.executeQuery(sql9);
+						Log_Out l1 = new Log_Out();
+						l1.logout();
+					}
 
 				}
 			} catch (Exception e) {
 				System.out.println(e);
 
-			}finally {
-				Log_Out l1= new Log_Out();
-				l1.logout();
 			}
 			break;
 		case 4:
@@ -205,6 +235,19 @@ public class Receipt {
 					System.out.println("Transaction_type: " + trans_type);
 					System.out.println("Transaction_amount: ₹ " + trans_amount);
 					System.out.println("Current Balance: ₹ " + current_balance);
+					System.out.println("Do You want to continue with transaction:\n" + "0: CONTINUE 1: EXIT");
+					Scanner myObj = new Scanner(System.in);
+					int choice = myObj.nextInt();
+
+					if (choice == 0) {
+						atm.menu();
+					} else {
+						Statement stmt = con.createStatement();
+						ResultSet r = stmt.executeQuery(sql9);
+						Log_Out l1 = new Log_Out();
+						l1.logout();
+
+					}
 
 				}
 			} catch (Exception e) {
