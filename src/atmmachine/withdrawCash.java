@@ -151,7 +151,7 @@ public class withdrawCash {
 				case 2000:
 					numberPriNote = amount / priorityNote;
 
-					if (numberPriNote > currNo[0]) {
+					if (numberPriNote >= currNo[0]) {
 						System.out.println("No sufficient denomination present.\nPlease accept the system generated denomination");
 						System.out.println("--------------------------------------");												
 						numberPriNote = 0;
@@ -162,7 +162,7 @@ public class withdrawCash {
 				case 1000:
 					numberPriNote = amount / priorityNote;
 
-					if (numberPriNote > currNo[1]) {
+					if (numberPriNote >= currNo[1]) {
 						System.out.println(
 								"No sufficient denomination present.\nPlease accept the system generated denomination");
 						System.out.println("--------------------------------------");												
@@ -174,7 +174,7 @@ public class withdrawCash {
 					break;
 				case 500:
 					numberPriNote = amount / priorityNote;
-					if (numberPriNote > currNo[2]) {
+					if (numberPriNote >= currNo[2]) {
 						System.out.println(numberPriNote);
 						System.out.println(
 								"No sufficient denomination present.\nPlease accept the system generated denomination");
@@ -187,7 +187,7 @@ public class withdrawCash {
 					break;
 				case 100:
 					numberPriNote = amount / priorityNote;
-					if (numberPriNote > currNo[3]) {
+					if (numberPriNote >= currNo[3]) {
 						System.out.println(
 								"No sufficient denomination present. \nPlease accept the system generated denomination");
 						System.out.println("--------------------------------------");												
@@ -199,7 +199,7 @@ public class withdrawCash {
 					break;
 				case 50:
 					numberPriNote = amount / priorityNote;
-					if (numberPriNote > currNo[4]) {
+					if (numberPriNote >= currNo[4]) {
 						System.out.println(
 								"No sufficient denomination present.\nPlease accept the system generated denomination");
 						System.out.println("--------------------------------------");												

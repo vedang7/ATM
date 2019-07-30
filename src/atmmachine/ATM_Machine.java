@@ -141,9 +141,10 @@ public class ATM_Machine {
 		{
 			ResultSet n= st.executeQuery(sql2);
 			n.next();
-			
+			//System.out.print("\033[H\033[2J");
 			if(validateJavaDate(n.getString(5)))
 			{
+				
 				if(n.getString(6).equals("1"))
 				{
 					String sql5="update card_pin set INVALID_ENTRIES ="+0+" where CARD_NO="+this.Card_number;
@@ -169,14 +170,12 @@ public class ATM_Machine {
 					{
 						System.out.println("\n\n\tWELCOME\n\n");
 						String sql9="update account set soft_lock=0 where account_no="+Account_no;
-						ResultSet t=st.executeQuery(sql9);
-						//t.next();
-						//this.softlock=0;
+						ResultSet t=st.executeQuery(sql9);						
 						menu();
 					}
 					else
 					{
-						System.out.println("Someone else is still using this account.\nIf it is a suspicious activity please report that to nearby bank");
+						System.out.println("Someone else is still using this account.\nIf it is a suspicious activity please report that to nearby bank.");
 						Log_Out l2= new Log_Out();
 						l2.logout();
 						
