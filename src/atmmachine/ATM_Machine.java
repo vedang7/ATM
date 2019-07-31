@@ -12,8 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 //hi
-//hi2
-//hi3
+//hi5
 public class ATM_Machine {
 	String Card_number;//Card number
 	int validcard=0;
